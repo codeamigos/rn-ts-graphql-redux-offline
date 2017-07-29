@@ -4,7 +4,7 @@ import { graphql, ChildProps } from 'react-apollo'
 import { FeedQuery } from './schema'
 // const graphqlDocuments = require('./documents.json')
 import * as graphqlDocuments from './documents.json'
-import { s } from 'react-native-better-styles'
+import { s, colors } from 'react-native-better-styles'
 
 class Component extends React.PureComponent<ChildProps<{}, FeedQuery>> {
   constructor(props: ChildProps<{}, FeedQuery>) {
@@ -28,7 +28,7 @@ class Component extends React.PureComponent<ChildProps<{}, FeedQuery>> {
     if (data.loading)
       return (
         <RN.View style={[s.flx_i, s.jcc, s.aic]}>
-          <RN.Text style={[s.grey, s.fw3, s.f4]}>Loading...</RN.Text>
+          <RN.ActivityIndicator color={colors.blue} />
         </RN.View>
       )
 

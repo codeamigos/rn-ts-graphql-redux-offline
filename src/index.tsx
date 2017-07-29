@@ -9,6 +9,7 @@ import offlineConfig from 'redux-offline/lib/defaults'
 import * as RehydateActions from './actions/rehydrateActions'
 import RehydateReducer from './reducers/rehydrateReducer'
 import Component from './Component'
+import RehydrateWrapper from './RehydrateWrapper'
 const { s } = BS
 
 const palette: BS.Palette = {
@@ -56,12 +57,21 @@ const client = new RA.ApolloClient({
   networkInterface
 })
 
+export interface Store {
+  apollo?: RA.ApolloClient
+  rehydrated: boolean
+}
+
+const initialStore: Store = {
+  rehydrated: false
+}
+
 const store = Redux.createStore(
-  Redux.combineReducers({
-    rehydrate: RehydateReducer,
+  Redux.combineReducers<Store>({
+    rehydrated: RehydateReducer,
     apollo: client.reducer()
   }),
-  {},
+  initialStore,
   Redux.compose(
     Redux.applyMiddleware(client.middleware()),
     ReduxOffline.offline({
@@ -80,9 +90,11 @@ class AppWithApollo extends React.Component {
   render() {
     return (
       <RA.ApolloProvider client={client} store={store}>
-        <RN.View style={[s.flx_i, s.pt2, s.bg_greyLightest]}>
-          <Component />
-        </RN.View>
+        <RehydrateWrapper>
+          <RN.View style={[s.flx_i, s.pt2, s.bg_greyLightest]}>
+            <Component />
+          </RN.View>
+        </RehydrateWrapper>
       </RA.ApolloProvider>
     )
   }
