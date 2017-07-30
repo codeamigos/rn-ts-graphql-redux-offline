@@ -21,3 +21,6 @@ npm install
 npm run ios // just once to build and install app on device
 npm start // to start app
 ```
+
+### Heads up
+There are could be errors like `Generic type 'AsyncIterator<T, E>' requires 2 type argument(s).` in graphq subscriptions types, its okay. Hope it will be fixed soon
